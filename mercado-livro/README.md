@@ -288,3 +288,22 @@ fun main() {
 ```
 
 </details>
+
+<details>
+<summary>**Data classes**</summary>
+
+```kotlin
+// Data class to represent a simple data structure with 
+// automatically generated functions like equals(), hashCode(), and toString()
+// It's also like Record in Java, but with more features
+data class User(val name: String, val age: Int)
+
+fun main() {
+    val user1 = User("Alice", 30)
+    val user2 = User("Alice", 30)
+    println(user1) // Output: User(name=Alice, age=30)
+    println(user1 == user2) // Output: true (data classes automatically generate equals() based on properties)
+}
+```
+
+</details>
