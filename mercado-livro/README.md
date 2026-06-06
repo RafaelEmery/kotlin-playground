@@ -83,7 +83,7 @@ To check de dependencies installed:
 [Online Kotlin compiler](https://play.kotlinlang.org/)
 
 <details>
-<summary>**Classes**</summary>
+<summary>Classes</summary>
 
 ```kotlin
 // Person with name and age attributes
@@ -115,7 +115,7 @@ fun main() {
 </details>
 
 <details>
-<summary>**Functions**</summary>
+<summary>Functions</summary>
 
 ```kotlin
 // Functions can return "Unit" (similar to void in Java) or a specific type
@@ -155,7 +155,7 @@ fun main() {
 </details>
 
 <details>
-<summary>**Variables and types**</summary>
+<summary>Variables and types</summary>
 
 Only `var` and `val` are used to declare variables in Kotlin.
 
@@ -187,7 +187,7 @@ var explicitVariable: Int = 42
 </details>
 
 <details>
-<summary>**Loops**</summary>
+<summary>Loops</summary>
 
 ```kotlin
 // For loop with a range
@@ -227,7 +227,7 @@ do {
 </details>
 
 <details>
-<summary>**When expression (similar to switch in Java)**</summary>
+<summary>When expression (similar to switch in Java)</summary>
 
 ```kotlin
 val number = 3
@@ -262,7 +262,7 @@ fun getNumberDescription(number: Int): String {
 </details>
 
 <details>
-<summary>**Null safety**</summary>
+<summary>Null safety</summary>
 
 ```kotlin
 // Non-nullable variable (cannot hold null)
@@ -293,7 +293,7 @@ var list: List<String?> = listOf("A", null, "C") // This list can contain null v
 </details>
 
 <details>
-<summary>**Lists**</summary>
+<summary>Lists</summary>
 
 ```kotlin
 // Immutable list (cannot be modified after creation)
@@ -319,7 +319,7 @@ mutableMap.remove("Two") // This is allowed
 </details>
 
 <details>
-<summary>**Companion object (similar to static members in Java)**</summary>
+<summary>Companion object (similar to static members in Java)</summary>
 
 ```kotlin
 class MyClass {
@@ -346,7 +346,7 @@ fun main() {
 </details>
 
 <details>
-<summary>**Data classes**</summary>
+<summary>Data classes</summary>
 
 ```kotlin
 // Data class to represent a simple data structure with 
