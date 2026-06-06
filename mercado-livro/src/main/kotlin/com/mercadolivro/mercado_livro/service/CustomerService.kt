@@ -3,45 +3,50 @@ package com.mercadolivro.mercado_livro.service
 import com.mercadolivro.mercado_livro.controller.request.PostCustomerRequest
 import com.mercadolivro.mercado_livro.controller.request.PutCustomerRequest
 import com.mercadolivro.mercado_livro.model.CustomerModel
+import com.mercadolivro.mercado_livro.repository.CustomerRepository
 import org.springframework.stereotype.Service
 
 
 @Service
-class CustomerService {
-    val customers: MutableList<CustomerModel> = mutableListOf()
-
+class CustomerService(
+    val repository: CustomerRepository
+) {
+    /**
+     * We can use a findAll() and toList() to convert the Iterable returned by findAll()
+     * into a List so that we can use the filter function to filter the customers by name.
+     *
+     * But the findByNameContaining method is more efficient because it will generate
+     * a query that will search for customers whose name contains the given string,
+     * so it will return only the customers that match the criteria, instead of returning
+     * all customers and then filtering them in memory.
+     *
+     * Docs example: https://www.baeldung.com/spring-jpa-like-queries
+     */
     fun getAll(name: String?): List<CustomerModel> {
-        name?.let {
-            return customers.filter { it.name.contains(name, ignoreCase = true) }
-        }
-        return customers
+        return repository.findByNameContaining(name ?: "")
     }
 
-    fun getById(id: Int): CustomerModel? {
-        return customers.firstOrNull { it.id == id }
+    fun getById(id: Int): CustomerModel {
+        return repository.findById(id).orElseThrow()
     }
 
     fun create(customer: CustomerModel): CustomerModel {
-        val id: Int = if (customers.isEmpty()) 1
-            else customers.last().id?.plus(1) ?: 1
-        customer.id = id
-
-        customers.add(customer)
-
-        return customer
+        return repository.save(customer)
     }
 
     fun update(customer: CustomerModel): CustomerModel? {
-        val customerToUpdate = customers.firstOrNull { it.id == customer.id }
-        customerToUpdate?.let {
-            it.name = customer.name
-            it.email = customer.email
+        if (!repository.existsById(customer.id!!)) {
+            throw Exception("Customer not found")
         }
 
-        return customerToUpdate
+        return  repository.save(customer)
     }
 
     fun delete(id: Int) {
-        customers.removeIf { it.id == id }
+        if (!repository.existsById(id)) {
+            throw Exception("Customer not found")
+        }
+
+        repository.deleteById(id)
     }
 }

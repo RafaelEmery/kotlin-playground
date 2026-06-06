@@ -5,6 +5,46 @@ It allows users to buy and sell books, manage their inventory, and track orders.
 
 > This is a sample project made at `Kotlin e Spring do ZERO ao Avançado Course` from Udemy
 
+## Testing endpoints
+
+### Customers
+
+Get all customers, filter by name, or get a specific customer by ID:
+
+```bash
+curl -X GET "http://localhost:8080/customers"
+curl -X GET "http://localhost:8080/customers?name=John"
+curl -X GET "http://localhost:8080/customers/1"
+```
+
+Create a new customer:
+
+```bash
+curl -X POST "http://localhost:8080/customers" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Silva",
+    "email": "john@example.com"
+  }'
+```
+
+Update an existing customer:
+
+```bash
+curl -X PUT "http://localhost:8080/customers/1" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Silva Updated",
+    "email": "john.new@example.com"
+  }'
+```
+
+Delete a customer:
+
+```bash
+curl -X DELETE "http://localhost:8080/customers/1"
+```
+
 # Notes 
 
 Notes about the learning process and project structure.
@@ -20,6 +60,22 @@ After entering the project directory, set the Java version by running:
 sdk env
 
 java -version
+```
+
+## Dependencies
+
+The project dependencies are managed with Gradle and defined at `build.gradle.kts`.
+
+To build de application:
+
+```bash
+./gradlew build
+```
+
+To check de dependencies installed:
+
+```bash
+./gradlew dependencies --configuration compileClasspath
 ```
 
 ## Useful concepts of Kotlin
@@ -307,3 +363,14 @@ fun main() {
 ```
 
 </details>
+
+## Flyway 
+
+Flyway is a database migration tool that helps manage and version control database schema changes. 
+In this project, Flyway is used to automatically apply database migrations when the application starts.
+
+The migration scripts are located in the `src/main/resources/db/migration` directory. 
+Each script is named with a version number and a description, following the format `V{version}__{description}.sql`. 
+For example, `V1__Create_customers_table.sql` creates the `customers` table. 
+When the application starts, Flyway checks the database for existing migrations and applies any new migrations in order. 
+This ensures that the database schema is always up to date with the application's requirements.
