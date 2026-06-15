@@ -1,7 +1,6 @@
 package com.mercadolivro.mercado_livro.service
 
-import com.mercadolivro.mercado_livro.controller.request.PostCustomerRequest
-import com.mercadolivro.mercado_livro.controller.request.PutCustomerRequest
+import com.mercadolivro.mercado_livro.enums.CustomerStatus
 import com.mercadolivro.mercado_livro.model.CustomerModel
 import com.mercadolivro.mercado_livro.repository.CustomerRepository
 import org.springframework.stereotype.Service
@@ -9,7 +8,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class CustomerService(
-    val repository: CustomerRepository
+    val repository: CustomerRepository,
+    val bookService: BookService
 ) {
     /**
      * We can use a findAll() and toList() to convert the Iterable returned by findAll()
@@ -42,11 +42,12 @@ class CustomerService(
         return  repository.save(customer)
     }
 
-    fun delete(id: Int) {
-        if (!repository.existsById(id)) {
-            throw Exception("Customer not found")
-        }
+    fun softDelete(id: Int) {
+        val customer = getById(id)
 
-        repository.deleteById(id)
+        bookService.softDeleteByCustomer(customer)
+
+        customer.status = CustomerStatus.INACTIVE
+        repository.save(customer)
     }
 }

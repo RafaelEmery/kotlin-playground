@@ -2,8 +2,9 @@ package com.mercadolivro.mercado_livro.controller
 
 import com.mercadolivro.mercado_livro.controller.request.PostCustomerRequest
 import com.mercadolivro.mercado_livro.controller.request.PutCustomerRequest
+import com.mercadolivro.mercado_livro.controller.response.CustomerResponse
 import com.mercadolivro.mercado_livro.extension.toCustomerModel
-import com.mercadolivro.mercado_livro.model.CustomerModel
+import com.mercadolivro.mercado_livro.extension.toResponse
 import com.mercadolivro.mercado_livro.service.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -23,32 +24,34 @@ class CustomerController(
     val service: CustomerService
 ) {
     @GetMapping
-    fun getAll(@RequestParam name: String?): List<CustomerModel> {
-        return service.getAll(name)
+    fun getAll(@RequestParam name: String?): List<CustomerResponse> {
+        return service.getAll(name).map { it.toResponse() }
     }
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Int): CustomerModel {
-        return service.getById(id)
+    fun getById(@PathVariable id: Int): CustomerResponse {
+        return service.getById(id).toResponse()
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody customer: PostCustomerRequest): CustomerModel {
-        return service.create(customer.toCustomerModel())
+    fun create(@RequestBody customer: PostCustomerRequest): CustomerResponse {
+        return service.create(customer.toCustomerModel()).toResponse()
     }
 
     @PutMapping("/{id}")
     fun update(
         @PathVariable id: Int,
         @RequestBody customer: PutCustomerRequest
-    ): CustomerModel? {
-        return service.update(customer.toCustomerModel(id))
+    ): CustomerResponse? {
+        val customerSaved = service.getById(id)
+        return service.update(customer.toCustomerModel(customerSaved))
+            ?.toResponse()
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable id: Int) {
-        service.delete(id)
+        service.softDelete(id)
     }
 }
