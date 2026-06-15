@@ -17,3 +17,6 @@ spring:
     # version of the database schema when it encounters an existing schema that does not
     # have a version history.
     baseline-on-migrate: true
+  jackson:
+    # Jackson won't serialize properties with null values
+    default-property-inclusion: non_null
