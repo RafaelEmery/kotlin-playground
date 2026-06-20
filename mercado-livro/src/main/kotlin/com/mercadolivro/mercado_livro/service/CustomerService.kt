@@ -59,4 +59,8 @@ class CustomerService(
         customer.status = CustomerStatus.INACTIVE
         repository.save(customer)
     }
+
+    fun isEmailAvailable(email: String): Boolean {
+        return !repository.existsByEmail(email)
+    }
 }

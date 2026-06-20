@@ -12,4 +12,5 @@ interface CustomerRepository : CrudRepository<CustomerModel, Int> {
      * Could be findByName or findByNameLike, but findByNameContaining is more intuitive and easier to understand.
      */
     fun findByNameContaining(name: String): List<CustomerModel>
+    fun existsByEmail(email: String): Boolean
 }

@@ -366,6 +366,11 @@ fun main() {
 
 ## Flyway 
 
+> FIXME: Flyway is not working correctly, it is not applying the migrations when the application starts.
+> 
+> The property `jpa.hbernate.ddl-auto` is enabled to `update` to create the tables automatically, 
+> but it should be disabled and let Flyway handle the migrations.
+
 Flyway is a database migration tool that helps manage and version control database schema changes. 
 In this project, Flyway is used to automatically apply database migrations when the application starts.
 

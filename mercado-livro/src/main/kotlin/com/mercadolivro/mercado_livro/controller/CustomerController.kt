@@ -6,6 +6,7 @@ import com.mercadolivro.mercado_livro.controller.response.CustomerResponse
 import com.mercadolivro.mercado_livro.extension.toCustomerModel
 import com.mercadolivro.mercado_livro.extension.toResponse
 import com.mercadolivro.mercado_livro.service.CustomerService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -35,14 +36,14 @@ class CustomerController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody customer: PostCustomerRequest): CustomerResponse {
+    fun create(@RequestBody @Valid customer: PostCustomerRequest): CustomerResponse {
         return service.create(customer.toCustomerModel()).toResponse()
     }
 
     @PutMapping("/{id}")
     fun update(
         @PathVariable id: Int,
-        @RequestBody customer: PutCustomerRequest
+        @RequestBody @Valid customer: PutCustomerRequest
     ): CustomerResponse? {
         val customerSaved = service.getById(id)
         return service.update(customer.toCustomerModel(customerSaved))
