@@ -5,6 +5,10 @@ It allows users to buy and sell books, manage their inventory, and track orders.
 
 > This is a sample project made at `Kotlin e Spring do ZERO ao Avançado Course` from Udemy
 
+## Swagger
+
+Access the Swagger UI to explore and test the API endpoints at [/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
 ## Testing endpoints
 
 ### Customers
