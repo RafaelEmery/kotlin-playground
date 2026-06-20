@@ -18,17 +18,17 @@ import java.math.BigDecimal
 data class BookModel(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int?,
+    val id: Int?,
 
     @Column(nullable = false)
-    var name: String,
+    val name: String,
 
     @Column(nullable = false, unique = true)
-    var price: BigDecimal,
+    val price: BigDecimal,
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    var customer: CustomerModel? = null
+    val customer: CustomerModel? = null
 ) {
     /**
      * Status as class property with custom setter

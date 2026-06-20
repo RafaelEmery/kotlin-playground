@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class CustomerService(
-    val repository: CustomerRepository,
-    val bookService: BookService
+    private val repository: CustomerRepository,
+    private val bookService: BookService
 ) {
     /**
      * We can use a findAll() and toList() to convert the Iterable returned by findAll()

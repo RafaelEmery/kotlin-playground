@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 
 
-interface BookRepository : JpaRepository<BookModel, Int> {
+interface BookRepository: JpaRepository<BookModel, Int> {
     fun findByNameContaining(name: String, pageable: Pageable): Page<BookModel>
 
     fun findByStatus(status: BookStatus, pageable: Pageable): Page<BookModel>

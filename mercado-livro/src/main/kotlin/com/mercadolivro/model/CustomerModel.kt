@@ -13,10 +13,10 @@ import jakarta.persistence.Id
 data class CustomerModel(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int?,
+    val id: Int?,
 
     @Column(nullable = false)
-    var name: String,
+    val name: String,
 
     @Column(nullable = false, unique = true)
     var email: String,

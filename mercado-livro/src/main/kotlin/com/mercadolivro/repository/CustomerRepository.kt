@@ -3,7 +3,7 @@ package com.mercadolivro.repository
 import com.mercadolivro.model.CustomerModel
 import org.springframework.data.repository.CrudRepository
 
-interface CustomerRepository : CrudRepository<CustomerModel, Int> {
+interface CustomerRepository: CrudRepository<CustomerModel, Int> {
     /**
      * Spring Data JPA will automatically generate the implementation of this method based on the method name.
      *

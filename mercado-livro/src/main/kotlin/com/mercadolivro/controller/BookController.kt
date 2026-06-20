@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/books")
 class BookController(
-    val service: BookService,
-    val customerService: CustomerService
+    private val service: BookService,
+    private val customerService: CustomerService
 ) {
     @GetMapping
     fun getAll(

@@ -9,7 +9,7 @@ import jakarta.validation.ConstraintValidatorContext
  * It implements ConstraintValidator interface and overrides the isValid method to implement the validation logic.
  */
 class EmailAvailableValidator(
-    val customerService: CustomerService
+    private val customerService: CustomerService
 ): ConstraintValidator<EmailAvailable, String> {
     override fun isValid(value: String?, context: ConstraintValidatorContext?): Boolean {
         // Here you can implement the logic to check if the email is available or not.

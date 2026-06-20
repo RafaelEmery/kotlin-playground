@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/customers")
 class CustomerController(
-    val service: CustomerService
+    private val service: CustomerService
 ) {
     @GetMapping
     fun getAll(@RequestParam name: String?): List<CustomerResponse> {

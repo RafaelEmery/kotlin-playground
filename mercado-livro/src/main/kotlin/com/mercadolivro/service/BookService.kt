@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class BookService(
-    val repository: BookRepository
+    private val repository: BookRepository
 ) {
     fun getAll(name: String?, pageable: Pageable): Page<BookModel> {
         return repository.findByNameContaining(name ?: "", pageable)
@@ -57,6 +57,18 @@ class BookService(
             }
         }
         // Saving in batch, instead of one by one, to optimize the performance
+        repository.saveAll(books)
+    }
+
+    fun getAllByIds(bookIds: List<Int>): List<BookModel> {
+        return repository.findAllById(bookIds).toList()
+    }
+
+    fun purchase(books: MutableList<BookModel>) {
+        for (book in books) {
+            book.status = BookStatus.SOLD
+        }
+
         repository.saveAll(books)
     }
 }
