@@ -2,16 +2,19 @@ package com.mercadolivro.service
 
 import com.mercadolivro.enums.CustomerStatus
 import com.mercadolivro.enums.Errors
+import com.mercadolivro.enums.Profile
 import com.mercadolivro.exception.NotFoundException
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.CustomerRepository
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 
 @Service
 class CustomerService(
     private val repository: CustomerRepository,
-    private val bookService: BookService
+    private val bookService: BookService,
+    private val bcrypt: BCryptPasswordEncoder
 ) {
     /**
      * We can use a findAll() and toList() to convert the Iterable returned by findAll()
@@ -37,7 +40,11 @@ class CustomerService(
     }
 
     fun create(customer: CustomerModel): CustomerModel {
-        return repository.save(customer)
+        val customerToCreate = customer.copy(
+            password = bcrypt.encode(customer.password),
+            roles = setOf(Profile.CUSTOMER)
+        )
+        return repository.save(customerToCreate)
     }
 
     fun update(customer: CustomerModel): CustomerModel? {
