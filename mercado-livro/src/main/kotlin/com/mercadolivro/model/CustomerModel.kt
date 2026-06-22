@@ -38,8 +38,6 @@ data class CustomerModel(
      * and customer_id is the name of the column that will be created in the customer_roles. Since there's no
      * primary key in the customer_roles table, we need to specify the join column to link it to the customer table.
      *
-     * FIXME: needs FLyway to be working to create customer_roles table
-     *
      * Using @CollectionTable to map a collection of basic types
      * (Set<Profile>) to a separate table (customer_roles).
      * Using @ElementCollection to indicate that this is a collection of basic types,
