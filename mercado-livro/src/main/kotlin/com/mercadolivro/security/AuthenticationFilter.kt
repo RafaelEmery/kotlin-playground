@@ -4,6 +4,7 @@ import com.mercadolivro.controller.request.LoginRequest
 import com.mercadolivro.enums.Errors
 import com.mercadolivro.exception.AuthenticationException
 import com.mercadolivro.repository.CustomerRepository
+import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.authentication.AuthenticationManager
@@ -25,7 +26,8 @@ import tools.jackson.module.kotlin.jacksonObjectMapper
  */
 class AuthenticationFilter(
     authenticationManager: AuthenticationManager,
-    private val customerRepository: CustomerRepository
+    private val customerRepository: CustomerRepository,
+    private val jwtUtil: JwtUtil
 ) : UsernamePasswordAuthenticationFilter(authenticationManager) {
     override fun attemptAuthentication(request: HttpServletRequest, response: HttpServletResponse): Authentication {
         try {
@@ -42,9 +44,23 @@ class AuthenticationFilter(
             return authenticationManager.authenticate(token)
         } catch (e: Exception) {
             throw AuthenticationException(
-                Errors.LOGIN_BAD_REQUEST.message,
-                Errors.LOGIN_BAD_REQUEST.code
+                Errors.AUTHENTICATION_ERROR.message,
+                Errors.AUTHENTICATION_ERROR.code
             )
         }
+    }
+
+    override fun successfulAuthentication(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        chain: FilterChain,
+        authResult: Authentication
+    ) {
+        // principal is the authenticated user, which is an instance of UserCustomDetails
+        val userId = (authResult.principal as UserCustomDetails).id
+        val token = jwtUtil.generateToken(userId!!)
+
+        response.addHeader("Authorization", "Bearer $token")
+        response.addHeader("userId", userId.toString())
     }
 }

@@ -2,8 +2,11 @@ package com.mercadolivro.config
 
 import com.mercadolivro.repository.CustomerRepository
 import com.mercadolivro.security.AuthenticationFilter
+import com.mercadolivro.security.JwtUtil
+import com.mercadolivro.service.UserDetailsCustomService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -19,8 +22,8 @@ class SecurityConfig {
 
     /**
      * securityFilterChain bean is responsible for configuring the security settings for the application.
-     * It disables CSRF protection, allows public access to specified URLs, and requires authentication
-     * for all other requests. It also enables HTTP Basic authentication.
+     *      * It disables CSRF protection, allows public access to specified URLs, and requires authentication
+     *      * for all other requests. It also enables HTTP Basic authentication.
      *
      * The authorizeHttpRequests method is used to define the authorization rules for incoming HTTP requests.
      * The requestMatchers method is used to specify the URLs that should be publicly accessible, while
@@ -30,10 +33,11 @@ class SecurityConfig {
     fun securityFilterChain(
         http: HttpSecurity,
         authenticationConfiguration: AuthenticationConfiguration,
-        customerRepository: CustomerRepository
+        customerRepository: CustomerRepository,
+        jwtUtil: JwtUtil
     ): SecurityFilterChain {
         val authenticationManager = authenticationConfiguration.authenticationManager
-        val authenticationFilter = AuthenticationFilter(authenticationManager, customerRepository)
+        val authenticationFilter = AuthenticationFilter(authenticationManager, customerRepository, jwtUtil)
 
         http
             .csrf { it.disable() }
@@ -50,4 +54,14 @@ class SecurityConfig {
 
     @Bean
     fun bCryptPasswordEncoder() = BCryptPasswordEncoder()
+
+    @Bean
+    fun authenticationProvider(
+        userDetailsCustomService: UserDetailsCustomService,
+        passwordEncoder: BCryptPasswordEncoder
+    ): DaoAuthenticationProvider {
+        val provider = DaoAuthenticationProvider(userDetailsCustomService)
+        provider.setPasswordEncoder(passwordEncoder)
+        return provider
+    }
 }

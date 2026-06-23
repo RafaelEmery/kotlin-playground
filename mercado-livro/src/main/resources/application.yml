@@ -21,6 +21,6 @@ spring:
   jackson:
     # Jackson won't serialize properties with null values
     default-property-inclusion: non_null
-  logging:
-    level:
-      org.flywaydb: DEBUG
+jwt:
+  secret: f312a2a6-f1a6-49a2-a358-548c2991b7e1
+  expiration: 3600000
