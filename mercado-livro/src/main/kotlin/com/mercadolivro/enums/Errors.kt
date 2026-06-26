@@ -7,4 +7,6 @@ enum class Errors(val code: String, val message: String) {
     CUSTOMER_BAD_REQUEST("ML-011", "Customer has invalid data [%S]"),
     PURCHASE_BAD_REQUEST("ML-020", "Purchase has invalid data: [%s]"),
     AUTHENTICATION_ERROR("ML-030", "Invalid email or password"),
+    TOKEN_ERROR("ML-031", "Invalid token"),
+    UNAUTHORIZED_ERROR("ML-032", "Unauthorized"),
 }
