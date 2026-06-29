@@ -1,5 +1,6 @@
 package com.mercadolivro.extension
 
+import org.springframework.data.domain.Page
 import com.mercadolivro.controller.request.PostBookRequest
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.controller.request.PostCustomerRequest
@@ -7,9 +8,11 @@ import com.mercadolivro.controller.request.PutBookRequest
 import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.controller.response.CustomerResponse
+import com.mercadolivro.controller.response.PageResponse
 import com.mercadolivro.enums.BookStatus
 import com.mercadolivro.enums.CustomerStatus
 import com.mercadolivro.model.BookModel
+
 
 fun PostCustomerRequest.toCustomerModel(): CustomerModel {
     return CustomerModel(
@@ -68,5 +71,19 @@ fun BookModel.toResponse(): BookResponse {
         this.price,
         this.status,
         this.customer
+    )
+}
+
+/**
+ * T : Any means that T can be any type, but it cannot be null.
+ * This is because the PageResponse class is defined as PageResponse<T : Any>,
+ * which means that T cannot be null.
+ */
+fun <T : Any> Page<T>.toPageResponse(): PageResponse<T> {
+    return PageResponse(
+        items = this.content,
+        currentPage = this.number,
+        totalItems = this.totalElements,
+        totalPages = this.totalPages
     )
 }

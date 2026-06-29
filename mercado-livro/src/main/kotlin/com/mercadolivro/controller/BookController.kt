@@ -3,9 +3,11 @@ package com.mercadolivro.controller
 import com.mercadolivro.controller.request.PostBookRequest
 import com.mercadolivro.controller.request.PutBookRequest
 import com.mercadolivro.controller.response.BookResponse
+import com.mercadolivro.controller.response.PageResponse
 import com.mercadolivro.service.BookService
 import com.mercadolivro.service.CustomerService
 import com.mercadolivro.extension.toBookModel
+import com.mercadolivro.extension.toPageResponse
 import com.mercadolivro.extension.toResponse
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
@@ -33,13 +35,13 @@ class BookController(
     fun getAll(
         @RequestParam name: String?,
         @PageableDefault(size = 10, page = 0) pageable: Pageable
-    ): Page<BookResponse> {
-        return service.getAll(name, pageable).map { it.toResponse() }
+    ): PageResponse<BookResponse> {
+        return service.getAll(name, pageable).map { it.toResponse() }.toPageResponse()
     }
 
     @GetMapping("/active")
-    fun getActive(@PageableDefault(size = 10, page = 0) pageable: Pageable): Page<BookResponse> {
-        return service.getAllActive(pageable).map { it.toResponse() }
+    fun getActive(@PageableDefault(size = 10, page = 0) pageable: Pageable): PageResponse<BookResponse> {
+        return service.getAllActive(pageable).map { it.toResponse() }.toPageResponse()
     }
 
     @GetMapping("/{id}")

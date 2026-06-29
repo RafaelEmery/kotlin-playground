@@ -3,6 +3,7 @@ package com.mercadolivro.config
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.info.Info
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 
 /**
  * Configuration class for Swagger/OpenAPI documentation.
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration
  * while @OpenAPIDefinition has info attribute for API metadata.
  */
 @Configuration
+@Profile("!prod") // Enable Swagger only in non-production profiles
 @OpenAPIDefinition(
     info = Info(
         title = "Mercado Livro API",

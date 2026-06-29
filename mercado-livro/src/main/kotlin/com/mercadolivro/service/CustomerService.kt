@@ -6,6 +6,7 @@ import com.mercadolivro.enums.Role
 import com.mercadolivro.exception.NotFoundException
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.CustomerRepository
+import org.springframework.data.domain.Page
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -27,7 +28,7 @@ class CustomerService(
      *
      * Docs example: https://www.baeldung.com/spring-jpa-like-queries
      */
-    fun getAll(name: String?): List<CustomerModel> {
+    fun getAll(name: String?): Page<CustomerModel> {
         return repository.findByNameContaining(name ?: "")
     }
 

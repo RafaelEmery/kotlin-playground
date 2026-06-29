@@ -3,13 +3,14 @@ package com.mercadolivro.controller
 import com.mercadolivro.controller.request.PostCustomerRequest
 import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.controller.response.CustomerResponse
+import com.mercadolivro.controller.response.PageResponse
 import com.mercadolivro.extension.toCustomerModel
+import com.mercadolivro.extension.toPageResponse
 import com.mercadolivro.extension.toResponse
 import com.mercadolivro.security.UserCanOnlyAccessTheirOwnResource
 import com.mercadolivro.service.CustomerService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -27,8 +28,8 @@ class CustomerController(
     private val service: CustomerService
 ) {
     @GetMapping
-    fun getAll(@RequestParam name: String?): List<CustomerResponse> {
-        return service.getAll(name).map { it.toResponse() }
+    fun getAll(@RequestParam name: String?): PageResponse<CustomerResponse> {
+        return service.getAll(name).map { it.toResponse() }.toPageResponse()
     }
 
     @GetMapping("/{id}")
@@ -44,6 +45,7 @@ class CustomerController(
     }
 
     @PutMapping("/{id}")
+    @UserCanOnlyAccessTheirOwnResource
     fun update(
         @PathVariable id: Int,
         @RequestBody @Valid customer: PutCustomerRequest
@@ -55,6 +57,7 @@ class CustomerController(
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @UserCanOnlyAccessTheirOwnResource
     fun delete(@PathVariable id: Int) {
         service.softDelete(id)
     }

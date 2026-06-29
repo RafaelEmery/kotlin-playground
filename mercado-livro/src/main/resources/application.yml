@@ -1,8 +1,10 @@
+# Base/common configuration for the application.
+# This file contains settings that are shared across all environments (e.g., development, testing, production).
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/mercadolivro
-    username: app
-    password: app
+  profiles:
+    # The active profile is set to 'dev', indicating that the application will
+    # use the development-specific configuration settings (application-dev)
+    active: dev
   jpa:
     hibernate:
       # DDL Auto is a convenient way to automatically create, update, validate, or

@@ -31,7 +31,9 @@ class SecurityConfig {
     private val PUBLIC_ROUTES = arrayOf(
         "/swagger-ui/**",
         "/swagger-ui.html",
-        "/v3/api-docs/**"
+        "/v3/api-docs/**",
+        "/customers/**",
+        "/books/**",
     )
     private val ADMIN_ROUTES = arrayOf(
         "/admin/**"

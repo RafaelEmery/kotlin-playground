@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    # The mercadolivro-prod database is used for production environment,
+    # while mercadolivro is used for development environment.
+    url: jdbc:mysql://localhost:3306/mercadolivro-prod
+    username: app
+    password: app

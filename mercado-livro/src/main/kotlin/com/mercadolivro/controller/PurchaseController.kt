@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
-@RestController("/purchase")
+@RestController("/purchases")
 class PurchaseController(
     private val service: PurchaseService,
     private val mapper: PurchaseMapper
